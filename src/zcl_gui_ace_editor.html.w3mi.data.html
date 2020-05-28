@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="base64.js" type="text/javascript" charset="utf-8"></script>
+<script src="sapguidata.js" type="text/javascript" charset="utf-8"></script>
+<script src="sapguilogger.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function() {
+		console.show();
+
+		//FIXME: Stupid workaround so that on_sapevent guaranteed to receive a DOMContentLoaded event
+		setTimeout(function(){
+			window.location = "SAPEVENT:DOMContentLoaded";
+		}, 50)
+
+		window.editor = ace.edit("editor");
+
+		window.editor.setRawContent = function(contents) {
+			this.setValue(contents, -1);
+			this.clearSelection();
+		}
+
+		window.editor.syncToBakend = function() {try{
+			sapguiData.set(this.getValue());
+		}catch(e){console.error(e)}}
+
+	});
+</script>
+<style type="text/css" media="screen">
+#editor {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border: #f00 3px solid;
+}
+#btn {
+	position: fixed;
+	left: 0; top:0;
+	z-index: 1000;
+}
+</style>
+</head>
+<body>
+	<div id="editor"></div>
+</body>
+</html>
